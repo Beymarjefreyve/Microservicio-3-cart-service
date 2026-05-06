@@ -1,4 +1,4 @@
-﻿from rest_framework import viewsets, status
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Cart, CartItem
@@ -87,4 +87,16 @@ class CartViewSet(viewsets.ViewSet):
         
         cart = self.get_cart(user_id)
         cart.items.all().delete()
+        return Response(CartSerializer(cart).data)
+
+    @action(detail=False, methods=['post'])
+    def bulk_remove(self, request):
+        user_id = request.data.get('user_id')
+        item_ids = request.data.get('item_ids', [])
+        
+        if not user_id or not isinstance(item_ids, list):
+            return Response({"error": "user_id and a list of item_ids are required"}, status=status.HTTP_400_BAD_REQUEST)
+            
+        cart = self.get_cart(user_id)
+        CartItem.objects.filter(cart=cart, id__in=item_ids).delete()
         return Response(CartSerializer(cart).data)
