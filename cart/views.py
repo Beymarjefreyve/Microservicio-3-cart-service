@@ -1,11 +1,11 @@
-from rest_framework import viewsets, status
+﻿from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
 
 class CartViewSet(viewsets.ViewSet):
-    # En un entorno real, usaríamos el user_id del token JWT
+    # En un entorno real, usarÃ­amos el user_id del token JWT
     # Por ahora permitiremos pasar el user_id en la query o body para pruebas
     
     def get_cart(self, user_id):
@@ -40,7 +40,7 @@ class CartViewSet(viewsets.ViewSet):
         )
         
         item.quantity += quantity
-        item.price_at_addition = price # Actualizar al precio más reciente si es necesario
+        item.price_at_addition = price # Actualizar al precio mÃ¡s reciente si es necesario
         item.save()
 
         return Response(CartSerializer(cart).data)

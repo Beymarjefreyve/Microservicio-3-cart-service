@@ -1,4 +1,4 @@
-from django.db import models
+﻿from django.db import models
 
 class Cart(models.Model):
     user_id = models.IntegerField(unique=True) # ID from auth-service
